@@ -1,7 +1,13 @@
 
+export enum Role {
+    ADMIN = 'Administrator',
+    USER = 'User'
+}
+
 export interface IUser {
-    id: number,
+    id: string,
     name: string,
     email: string,
-    password: string
+    password: string,
+    roles: Role
 }

@@ -1,9 +1,15 @@
 import express, { Express, Request, Response } from "express";
 import userRouter from './routers/userRouter.js';
 import productRouter from './routers/productRouter.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+//a variavel process tem a informaçao sobre o nosso processo do node:
+//console.log(process.env.PORT);
 
 const app: Express = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 

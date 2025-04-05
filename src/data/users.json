@@ -1,4 +1,41 @@
 [
-    { "id": 2, "name": "Alexandra", "email": "alexandra@gmail.com", "password": "123"  },
-    { "id": 3, "name": "Adriana", "email": "alex@hotmail.com", "password": "111" }
+  {
+    "id": "2",
+    "name": "Alexandra",
+    "email": "alexandra@gmail.com",
+    "password": "12akhs3"
+  },
+  {
+    "id": "3",
+    "name": "Adriana",
+    "email": "alex@hotmail.com",
+    "password": "abc"
+  },
+  {
+    "name": "Pedro",
+    "email": "pedro@gmail.com",
+    "password": "12akhABs?$3",
+    "roles": [
+      "ADMIN"
+    ],
+    "id": "7d73cbcf-7e46-49be-a5c2-43880382c7b7"
+  },
+  {
+    "name": "Pedro",
+    "email": "pedro23@gmail.com",
+    "password": "12akhABs?$3",
+    "roles": [
+      "ADMIN"
+    ],
+    "id": "c9d277f6-26ee-4689-bb56-23b717592cfd"
+  },
+  {
+    "name": "Pedro7",
+    "email": "pedro7@gmail.com",
+    "password": "12akhABs?$3",
+    "roles": [
+      "ADMIN"
+    ],
+    "id": "cc3a9547-7d43-453f-9a4c-7c4b79741bd3"
+  }
 ]

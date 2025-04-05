@@ -2,12 +2,13 @@
 import { Router } from 'express';
 import { check } from "express-validator";
 import userController from '../controllers/userController.js';
+import authMiddleware from '../middlewares/authMiddleware.js';
 
 const router: Router = Router();
 
 //primeiro parametro é o endpoint
 // get all users
-router.get("/users", userController.getAllUsers);
+router.get("/users", authMiddleware, userController.getAllUsers);
 
 //get user by id
 router.get("/users/:id", userController.getUserById);
