@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import userRouter from './routers/userRouter.js';
 import productRouter from './routers/productRouter.js';
 import dotenv from 'dotenv';
+import cors from 'cors'; 
 
 dotenv.config();
 
@@ -10,6 +11,10 @@ dotenv.config();
 
 const app: Express = express();
 const PORT = process.env.PORT || 4000;
+
+app.use(cors({
+    origin: '*'
+}))
 
 app.use(express.json());
 

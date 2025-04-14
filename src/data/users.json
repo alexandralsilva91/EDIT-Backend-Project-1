@@ -37,5 +37,14 @@
       "ADMIN"
     ],
     "id": "cc3a9547-7d43-453f-9a4c-7c4b79741bd3"
+  },
+  {
+    "name": "Pedro7",
+    "email": "pedro5@gmail.com",
+    "password": "12akhABs?$3",
+    "roles": [
+      "ADMIN"
+    ],
+    "id": "affc888a-e070-4129-8695-27736ccd3985"
   }
 ]

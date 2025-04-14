@@ -1,9 +1,9 @@
-import { IProduct } from './../interfaces/productInterface.js';
+import { IProduct } from '../interfaces/productInterface.js';
 import jsonFileReader from '../utils/jsonFileReader.js';
 import { v4 as uuidv4 } from 'uuid';
 
 
-const productsFilePath = './src/data/products.json'
+const productsFilePath = './src/data/devices.json'
 
 class ProductService {
 
@@ -52,9 +52,22 @@ class ProductService {
 
     update = async () => { }
 
-    delete = async () => { }
+    delete = async (productId: string) => {
 
+        let products = this.read();
 
+        const foundProduct: IProduct | undefined = products.find((product) => product.id === productId);
+
+        if (!foundProduct) {
+            return null;
+        }
+
+        products = products.filter((product) => product.id !== productId);
+
+        this.write(products);
+
+        return foundProduct;
+    }
 }
 
 export default new ProductService();

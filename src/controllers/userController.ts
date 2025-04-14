@@ -27,9 +27,7 @@ class UserController {
 
     //register/create a new user
     register = async (req: Request, res: Response) => {
-        try{
-
-        
+        try {
         const errors = validationResult(req);
         console.log(errors);
     
@@ -39,6 +37,10 @@ class UserController {
         }
 
         const createdUserWithToken = await userService.register(req.body);
+        if (!createdUserWithToken) {
+            res.status(404).json({ error: "User already exists" });
+            return;
+        }
     
         res.status(201).send(createdUserWithToken);
     

@@ -4,10 +4,7 @@ export interface IProduct {
     title: string,
     price: number,
     description?: string,
-    category: string,
-    image: string,
-    rating?: {
-        rate: number,
-        count: number
-    }
+    brand: string,
+    image_url: string,
+    type: string,
 }

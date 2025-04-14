@@ -1,7 +1,7 @@
-import { IUser } from './../interfaces/userinterface.js';
+import { IUser } from '../interfaces/userinterface.js';
 import jsonFileReader from '../utils/jsonFileReader.js';
 import { v4 as uuidv4 } from 'uuid';
-import tokenService from './../utils/tokenService.js';
+import tokenService from '../utils/tokenService.js';
 
 
 const usersFilePath = './src/data/users.json'
@@ -37,13 +37,13 @@ class UserService {
     register = async (newUser: IUser): Promise<{
         user: IUser
         accessToken: string
-        }> => {
+    } | null> => {
         try {
             const users: IUser[] = this.read();
 
             const foundUser = users.find(user => user.email === newUser.email);
             if (foundUser) {
-                throw new Error('User already exists');
+                return null;
             }
 
             newUser.id = uuidv4();
@@ -54,7 +54,7 @@ class UserService {
 
             const accessToken = tokenService.generateAccessToken(newUser);
 
-            return { user: newUser, accessToken: accessToken};
+            return { user: newUser, accessToken: accessToken };
         } catch (error) {
             console.error(`Error creating a product: ${error}`);
             throw new Error('Failed creating product');
