@@ -2,7 +2,8 @@ import express, { Express, Request, Response } from "express";
 import userRouter from './routers/userRouter.js';
 import productRouter from './routers/productRouter.js';
 import dotenv from 'dotenv';
-import cors from 'cors'; 
+import cors from 'cors';
+import fileUpload from "express-fileupload";
 
 dotenv.config();
 
@@ -16,6 +17,10 @@ app.use(cors({
     origin: '*'
 }))
 
+
+app.use(fileUpload());
+app.use(express.static("static"));
+
 app.use(express.json());
 
 // esta função é so p testar se a nossa api esta acessivel:
@@ -25,6 +30,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use('/auth', userRouter); //auth de autenticação
 app.use('/api', productRouter);
+
 
 app.listen(PORT, () => {
     console.log(`Server started on PORT: ${PORT}`);

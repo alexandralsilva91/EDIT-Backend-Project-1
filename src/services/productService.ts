@@ -1,7 +1,7 @@
 import { IProduct } from '../interfaces/productInterface.js';
 import jsonFileReader from '../utils/jsonFileReader.js';
 import { v4 as uuidv4 } from 'uuid';
-
+import fileUpload from '../utils/fileUpload.js';
 
 const productsFilePath = './src/data/devices.json'
 
@@ -33,8 +33,14 @@ class ProductService {
 
     getOne = async () => { }
 
-    create = async (newProduct: IProduct): Promise<IProduct> => {
+    create = async (newProduct: IProduct, image: any): Promise<IProduct> => {
         try {
+            newProduct.image_url = 'no-image.jpg';
+
+            if (image) {
+                newProduct.image_url = await fileUpload.save(image);
+            }
+
             const products: IProduct[] = this.read();
 
             newProduct.id = uuidv4();
@@ -60,6 +66,10 @@ class ProductService {
 
         if (!foundProduct) {
             return null;
+        }
+
+        if (foundProduct.image_url && foundProduct.image_url !== 'no-image.jpg') {
+            await fileUpload.delete(foundProduct.image_url)
         }
 
         products = products.filter((product) => product.id !== productId);
