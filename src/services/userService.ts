@@ -34,6 +34,24 @@ class UserService {
 
     getOne = async () => { }
 
+    login = async (email: string, password: string): Promise<{
+        user:IUser,
+        accessToken: string,
+    } | null> => { 
+            const users: IUser[] = this.read();
+            const foundUser = users.find(user => user.email === email);
+                    if (!foundUser) {
+                        return null
+                    }
+                    if (foundUser?.password !== password) {
+                        return null
+                    }
+
+                const accessToken = tokenService.generateAccessToken(foundUser);
+
+                return {user : foundUser, accessToken: accessToken};
+            }
+
     register = async (newUser: IUser): Promise<{
         user: IUser
         accessToken: string

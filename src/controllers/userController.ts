@@ -16,7 +16,7 @@ class UserController {
     getUserById(req: Request, res: Response) {
         const userId = req.params.id;
         const foundUser = users.find((user) => user.id === userId);
-    
+
         //foundUser === null || foundUser === undefined
         if (!foundUser) {
             res.status(404).send('User not found')
@@ -28,93 +28,106 @@ class UserController {
     //register/create a new user
     register = async (req: Request, res: Response) => {
         try {
-        const errors = validationResult(req);
-        console.log(errors);
-    
-        if (!errors.isEmpty()) {
-            res.status(422).json({ errors: errors.array() })
-            return
-        }
+            const errors = validationResult(req);
+            console.log(errors);
 
-        const createdUserWithToken = await userService.register(req.body);
-        if (!createdUserWithToken) {
-            res.status(404).json({ error: "User already exists" });
-            return;
+            if (!errors.isEmpty()) {
+                res.status(422).json({ errors: errors.array() })
+                return
+            }
+
+            const createdUserWithToken = await userService.register(req.body);
+            if (!createdUserWithToken) {
+                res.status(404).json({ error: "User already exists" });
+                return;
+            }
+
+            res.status(201).send(createdUserWithToken);
+
+            res.json("Ok! Vou criar, calma")
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.log(`Can´t register a new user: ${error.message}`);
+            }
+            res.status(500).json({ error: 'Can´t register a new user' })
         }
-    
-        res.status(201).send(createdUserWithToken);
-    
-        res.json("Ok! Vou criar, calma")
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-            console.log(`Can´t register a new user: ${error.message}`);
-        }
-        res.status(500).json({ error: 'Can´t register a new user' })
-    }
     }
 
     //login
-    login(req: Request, res: Response) {
+    login = async (req: Request, res: Response) => {
+
         /* 
         validar email/pwd
         procurar user pelo email
         comparar a pass do utilizador encontrado
         caso palavras passe coincididrem retornar o user
         */
-    
-        const { email, password } = req.body;
-    
-        const foundUser = users.find(user => user.email === email);
-        if (!foundUser) {
-            res.status(404).json('error: user with this email doesn\'t exist')
-            return
-        }
-        if (foundUser?.password !== password) {
-            res.status(400).json('error: Password doesn\'t match');
-            return
-        }
-        if (foundUser?.password === password) {
-            res.json(foundUser);
+
+        try {
+            const errors = validationResult(req);
+            console.log(errors);
+
+            if (!errors.isEmpty()) {
+                res.status(422).json({ errors: errors.array() })
+                return
+            }
+
+            const { email, password } = req.body;
+
+            const foundUserWithToken = await userService.login(email, password);
+            if (!foundUserWithToken) {
+                res.status(404).json({ error: "Failed login" });
+                return;
+            }
+
+            res.status(201).send(foundUserWithToken);
+
+            
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.log(`Can´t login a user: ${error.message}`);
+            }
+            res.status(500).json({ error: 'Can´t login a user' })
         }
     }
 
     //update an user
     update(req: Request, res: Response) {
         const userId = req.params.id;
-    
+
         const { name } = req.body;
-    
+
         const foundUser: IUser | undefined = users.find((user) => user.id === userId);
-    
+
         if (!foundUser) {
             res.status(404).send('User not found')
             return
         }
-    
+
         if (foundUser) {
             foundUser.name = name;
         }
-    
+
         res.json(foundUser);
     }
 
     //delete an user
     delete(req: Request, res: Response) {
         const userId = req.params.id;
-    
+
         const foundUser: IUser | undefined = users.find((user) => user.id === userId);
-    
+
         if (!foundUser) {
             res.status(404).send('User not found')
             return
         }
-    
+
         if (foundUser) {
             users = users.filter((user) => user.id !== userId);
         }
-    
+
         console.log(users)
-    
+
         res.json(foundUser);
     }
 }
