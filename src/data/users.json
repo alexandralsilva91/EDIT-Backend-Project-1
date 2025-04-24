@@ -46,5 +46,17 @@
       "ADMIN"
     ],
     "id": "affc888a-e070-4129-8695-27736ccd3985"
+  },
+  {
+    "name": "João",
+    "email": "joao@gmail.com",
+    "password": "$2b$07$NSxksw/3qPgZqId69t6J8OqhEZcfUpaWRoGpMI0ndC2n8Ytk7yqli",
+    "id": "9443a76a-e629-42b3-ace7-2201821fefb0"
+  },
+  {
+    "name": "João2",
+    "email": "joao2@gmail.com",
+    "password": "$2b$07$3sCxpILL6wpVEC27HYA3h.U1aCQr1AX5iVRffi3pVVg6ZEHG.eV9C",
+    "id": "445b0693-61fd-430d-94c1-3799180a1590"
   }
 ]

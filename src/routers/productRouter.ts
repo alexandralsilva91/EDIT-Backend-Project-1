@@ -2,6 +2,7 @@
 import { Router } from 'express';
 import { check } from "express-validator";
 import productController from '../controllers/productController.js';
+import authMiddleware from '../middlewares/authMiddleware.js';
 
 const router: Router = Router();
 
@@ -19,6 +20,6 @@ router.get("/products/types", productController.getTypes);
 router.get("/products/brands", productController.getBrands);
 
 //delete a product
-router.delete("/products/:id", productController.delete);
+router.delete("/products/:id", authMiddleware, productController.delete);
 
 export default router;

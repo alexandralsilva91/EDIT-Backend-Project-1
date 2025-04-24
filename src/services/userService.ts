@@ -2,6 +2,8 @@ import { IUser } from '../interfaces/userinterface.js';
 import jsonFileReader from '../utils/jsonFileReader.js';
 import { v4 as uuidv4 } from 'uuid';
 import tokenService from '../utils/tokenService.js';
+import bcrypt from 'bcrypt';
+
 
 
 const usersFilePath = './src/data/users.json'
@@ -38,19 +40,23 @@ class UserService {
         user:IUser,
         accessToken: string,
     } | null> => { 
-            const users: IUser[] = this.read();
-            const foundUser = users.find(user => user.email === email);
+        try {
+                const users: IUser[] = this.read();
+                const foundUser = users.find(user => user.email === email);
                     if (!foundUser) {
                         return null
                     }
-                    if (foundUser?.password !== password) {
+                    if (!await bcrypt.compare(password, foundUser.password)) {
                         return null
                     }
 
                 const accessToken = tokenService.generateAccessToken(foundUser);
 
-                return {user : foundUser, accessToken: accessToken};
-            }
+                return { user : foundUser, accessToken: accessToken };
+        } catch(error) {
+                console.error(`Error logging in user: ${error}`);
+                throw new Error('Failed to login user');
+        }}
 
     register = async (newUser: IUser): Promise<{
         user: IUser
@@ -65,6 +71,7 @@ class UserService {
             }
 
             newUser.id = uuidv4();
+            newUser.password = await bcrypt.hash(newUser.password, 7);
 
             users.push(newUser);
 
