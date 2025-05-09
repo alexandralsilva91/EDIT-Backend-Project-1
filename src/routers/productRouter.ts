@@ -8,7 +8,8 @@ const router: Router = Router();
 
 //primeiro parametro é o endpoint
 // get all products
-router.get("/products", productController.getAll);
+//o authMiddleware(['ADMIN', 'USER']) é para dizer que pode ser acedido pelo administrador e pelo user
+router.get("/products", authMiddleware(['ADMIN', 'USER']),productController.getAll);
 
 //create a new product
 router.post("/products", productController.create)
@@ -20,6 +21,6 @@ router.get("/products/types", productController.getTypes);
 router.get("/products/brands", productController.getBrands);
 
 //delete a product
-router.delete("/products/:id", authMiddleware, productController.delete);
+router.delete("/products/:id", productController.delete);
 
 export default router;
